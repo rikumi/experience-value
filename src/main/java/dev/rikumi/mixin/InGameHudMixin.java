@@ -48,6 +48,7 @@ public class InGameHudMixin {
 		return level + " (" + (currentLevelXps + addedXps) + "/" + (nextLevelXps + 1) + ")";
 	}
 
+	// Code from https://github.com/NyaaCat/Ukit/blob/main/src/main/java/cat/nyaa/ukit/utils/ExperienceUtils.java
 	private int getExpForLevel(int level) {
         if (level < 0) throw new IllegalArgumentException();
         else if (level <= 16) return (level + 6) * level;
