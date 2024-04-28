@@ -13,6 +13,10 @@ public class InGameHudMixin {
 	@Shadow
 	private MinecraftClient client;
 
+	private int _lastDrawXpLevel = 0;
+	private float _lastDrawXpProgress = 0f;
+	private String _lastDrawXpString = "";
+
 	@ModifyArg(
 		method = "renderExperienceBar(Lnet/minecraft/client/gui/DrawContext;I)V",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;getWidth(Ljava/lang/String;)I"),
@@ -41,11 +45,18 @@ public class InGameHudMixin {
 	}
 
 	private String getString() {
-		int level = this.client.player.experienceLevel;
-		int currentLevelXps = this.getExpForLevel(level);
-		int nextLevelXps = this.getExpForLevel(level + 1);
-		int addedXps = (int)Math.round((nextLevelXps - currentLevelXps) * this.client.player.experienceProgress);
-		return level + " (" + (currentLevelXps + addedXps) + "/" + (nextLevelXps + 1) + ")";
+		int xpLevel = this.client.player.experienceLevel;
+		float xpProgress = this.client.player.experienceProgress;
+		// some caching
+		if (this._lastDrawXpLevel != xpLevel || this._lastDrawXpProgress != xpProgress) {
+			int currentLevelXps = this.getExpForLevel(xpLevel);
+			int nextLevelXps = this.getExpForLevel(xpLevel + 1);
+			int addedXps = (int) Math.round((nextLevelXps - currentLevelXps) * xpProgress);
+			this._lastDrawXpLevel = xpLevel;
+			this._lastDrawXpProgress = xpProgress;
+			this._lastDrawXpString = xpLevel + " (" + (currentLevelXps + addedXps) + "/" + (nextLevelXps + 1) + ")";
+		}
+		return this._lastDrawXpString;
 	}
 
 	// Code from https://github.com/NyaaCat/Ukit/blob/main/src/main/java/cat/nyaa/ukit/utils/ExperienceUtils.java
