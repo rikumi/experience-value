@@ -18,7 +18,7 @@ public class InGameHudMixin {
 	private String _lastDrawXpString = "";
 
 	@ModifyArg(
-		method = "renderExperienceBar(Lnet/minecraft/client/gui/DrawContext;I)V",
+		method = "renderExperienceLevel(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;getWidth(Ljava/lang/String;)I"),
 		index = 0
 	)
@@ -27,7 +27,7 @@ public class InGameHudMixin {
 	}
 
 	@ModifyArg(
-		method = "renderExperienceBar(Lnet/minecraft/client/gui/DrawContext;I)V",
+		method = "renderExperienceLevel(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawText(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;IIIZ)I"),
 		index = 1
 	)
@@ -36,7 +36,7 @@ public class InGameHudMixin {
 	}
 
 	@ModifyArg(
-		method = "renderExperienceBar(Lnet/minecraft/client/gui/DrawContext;I)V",
+		method = "renderExperienceLevel(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawText(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;IIIZ)I"),
 		index = 3
 	)
